@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Trend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -34,10 +36,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'=> 'required',
             'content'=> 'required',
+            'published_at' => ['nullable', 'datetime'],
         ]);
+
+        $data['user_id'] = Auth::id();
+        $data['slug'] = Str::slug($data['title']);
+
+        Post::create($data);
+
+        return redirect()->route('dashboard');
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->foreignId('trend_id')->constrained()->onDelete('cascade');
+            //$table->foreignId('trend_id')->constrained()->onDelete('cascade');
             $table->foreignId(('user_id'))->constrained()->onDelete('cascade');
             $table->timestamp('published')->nullable();
             $table->timestamps();

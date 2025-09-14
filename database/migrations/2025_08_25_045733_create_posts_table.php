@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('content');
             //$table->foreignId('trend_id')->constrained()->onDelete('cascade');
             $table->foreignId(('user_id'))->constrained()->onDelete('cascade');
-            $table->timestamp('published')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

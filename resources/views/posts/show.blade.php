@@ -62,8 +62,11 @@
                                     <div class="flex items-center space-x-2">
                                         <span class="font-semibold text-gray-900">{{ $comment->user->name }}</span>
                                         <span class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
+                                        @if(auth()->check())
+                                            <span class="text-xs text-gray-400">(Auth ID: {{ auth()->id() }}, Comment User ID: {{ $comment->user_id }})</span>
+                                        @endif
                                     </div>
-                                    @can('update', $comment)
+                                    @if(auth()->check() && auth()->id() === $comment->user_id)
                                         <div class="flex space-x-2">
                                             <a href="{{ route('comments.edit', $comment) }}" 
                                                class="text-sm text-blue-600 hover:underline">Edit</a>
@@ -77,7 +80,7 @@
                                                 </button>
                                             </form>
                                         </div>
-                                    @endcan
+                                    @endif
                                 </div>
                                 <p class="text-gray-700">{{ $comment->comment }}</p>
                             </div>

@@ -25,6 +25,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/posts/{post}', [PostController::class, 'show'])
         ->name('posts.show');
     
+    // Search route
+    Route::get('/search', [PostController::class, 'search'])
+        ->name('posts.search');
+    
     // Comment routes
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
         ->name('comments.store');

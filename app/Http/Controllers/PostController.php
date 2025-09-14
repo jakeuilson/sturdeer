@@ -60,6 +60,26 @@ class PostController extends Controller
     }
 
     /**
+     * Search posts by title or content.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+        
+        if (empty($query)) {
+            return redirect()->route('dashboard')->with('error', 'Please enter a search term.');
+        }
+
+        $posts = Post::where('title', 'LIKE', "%{$query}%")
+                    ->orWhere('content', 'LIKE', "%{$query}%")
+                    ->with('user')
+                    ->paginate(10)
+                    ->withQueryString();
+
+        return view('posts.search', compact('posts', 'query'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post)

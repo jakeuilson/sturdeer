@@ -26,7 +26,7 @@
             </div>
             
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <x-trend-tabs>
+                <x-trend-tabs :sort="$sort">
                     OwO, nothing here?
                 </x-trend-tabs>
             </div>

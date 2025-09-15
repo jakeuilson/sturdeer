@@ -13,13 +13,26 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::paginate(10); //Limit the posts displayed per age to ten OwO
+        $sort = $request->get('sort', 'recent');
 
-        $trends = Trend::get();
+        $query = Post::query()
+            ->with('user')
+            ->withCount('comments');
+
+        if ($sort === 'popular') {
+            $query->orderByDesc('comments_count');
+        } else {
+            $query->orderByDesc('created_at');
+            $sort = 'recent';
+        }
+
+        $posts = $query->paginate(10)->withQueryString();
+
         return view('post.index', [
             'posts' => $posts,
+            'sort' => $sort,
         ]);
     }
 

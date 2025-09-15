@@ -10,7 +10,7 @@
             {{ Str::words($post->content, 20) }}
         </p>
     </a>
-        <x-primary-button>
-             
-        </x-primary-button>
+    <div class="mt-2 text-sm text-gray-600">
+        {{ $post->comments_count ?? $post->comments->count() }} comments
+    </div>
 </div>

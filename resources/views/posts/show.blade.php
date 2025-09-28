@@ -57,24 +57,28 @@
                     <!-- Comments List -->
                     <div class="space-y-6">
                         @forelse($post->comments as $comment)
-                            <div class="border-b border-gray-200 pb-4">
-                                <div class="flex justify-between items-start mb-2">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="font-semibold text-gray-900">{{ $comment->user->name }}</span>
-                                        <span class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
-                                        @if(auth()->check())
-                                            <span class="text-xs text-gray-400">(Auth ID: {{ auth()->id() }}, Comment User ID: {{ $comment->user_id }})</span>
-                                        @endif
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-sm font-medium">
+                                                {{ substr($comment->user->name, 0, 1) }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="font-semibold text-gray-900">{{ $comment->user->name }}</span>
+                                            <span class="text-sm text-gray-500 ml-2">{{ $comment->created_at->diffForHumans() }}</span>
+                                        </div>
                                     </div>
                                     @if(auth()->check() && auth()->id() === $comment->user_id)
                                         <div class="flex space-x-2">
                                             <a href="{{ route('comments.edit', $comment) }}" 
-                                               class="text-sm text-blue-600 hover:underline">Edit</a>
+                                               class="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200">Edit</a>
                                             <form method="POST" action="{{ route('comments.destroy', $comment) }}" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" 
-                                                        class="text-sm text-red-600 hover:underline"
+                                                        class="text-sm text-red-600 hover:text-red-800 hover:underline transition-colors duration-200"
                                                         onclick="return confirm('Are you sure you want to delete this comment?')">
                                                     Delete
                                                 </button>
@@ -82,11 +86,15 @@
                                         </div>
                                     @endif
                                 </div>
-                                <p class="text-gray-700">{{ $comment->comment }}</p>
+                                <p class="text-gray-700 leading-relaxed">{{ $comment->comment }}</p>
                             </div>
                         @empty
-                            <div class="text-center py-8 text-gray-500">
-                                No comments yet. Be the first to comment!
+                            <div class="text-center py-12">
+                                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">No comments yet</h3>
+                                <p class="text-gray-500">Be the first to share your thoughts!</p>
                             </div>
                         @endforelse
                     </div>
